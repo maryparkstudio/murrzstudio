@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>murrzstudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --cream: #faf6f1;
+    --blush: #f2e4d8;
+    --rose: #d9a898;
+    --dusty: #c4856f;
+    --deep: #7a4f3a;
+    --text: #2e1e15;
+    --muted: #9e7b6a;
+    --white: #ffffff;
+    --border: #ecddd4;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--dusty);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--rose);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s ease, width 0.2s, height 0.2s;
+    transform: translate(-50%, -50%);
+  }
+  body:has(a:hover) .cursor-ring,
+  body:has(button:hover) .cursor-ring {
+    width: 48px; height: 48px;
+    border-color: var(--dusty);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: lowercase;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex; gap: 0; list-style: none;
+    height: 100%;
+  }
+
+  .nav-links > li {
+    position: relative;
+    height: 100%;
+    display: flex; align-items: center;
+  }
+
+  .nav-links > li > a,
+  .nav-links > li > span {
+    padding: 0 18px;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    height: 100%;
+    display: flex; align-items: center;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-links > li > a:hover,
+  .nav-links > li > span:hover { color: var(--dusty); }
+
+  /* Dropdown */
+  .dropdown {
+    display: none;
+    position: absolute; top: 100%; left: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--rose);
+    min-width: 200px;
+    padding: 16px 0;
+    z-index: 200;
+  }
+
+  .nav-links > li:hover .dropdown { display: block; }
+
+  .dropdown a {
+    display: block;
+    padding: 8px 24px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s, padding-left 0.2s;
+  }
+  .dropdown a:hover { color: var(--dusty); padding-left: 30px; }
+
+  .nav-right {
+    display: flex; align-items: center; gap: 20px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  }
+  .nav-right a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .nav-right a:hover { color: var(--dusty); }
+
+  .cart-btn {
+    background: var(--text);
+    color: var(--cream) !important;
+    padding: 8px 18px;
+    font-size: 10px !important;
+    letter-spacing: 2px;
+  }
+
+  /* HAMBURGER */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 22px; height: 1px; background: var(--text); transition: all 0.3s; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+
+  .hero-text {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    animation: fadeLeft 1s ease both;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6vw, 84px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--dusty);
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 380px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--text);
+    color: var(--cream);
+    padding: 14px 32px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--deep); transform: translateY(-1px); }
+
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 32px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--dusty); color: var(--dusty); }
+
+  .hero-visual {
+    background: var(--blush);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeRight 1s ease both;
+  }
+
+  .hero-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, #f5d5c5 0%, var(--blush) 60%);
+  }
+
+  .hero-visual-inner {
+    position: relative; z-index: 1;
+    text-align: center;
+  }
+
+  .hero-monogram {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 180px;
+    font-weight: 300;
+    color: rgba(122, 79, 58, 0.12);
+    line-height: 1;
+    letter-spacing: -8px;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+
+  .hero-badge {
+    position: relative; z-index: 2;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(196, 133, 111, 0.4);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+  }
+
+  .hero-badge-inner {
+    width: 170px; height: 170px;
+    border-radius: 50%;
+    background: var(--white);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px;
+  }
+
+  .hero-badge-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .hero-badge-sub {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-bar {
+    background: var(--text);
+    color: var(--cream);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 20s linear infinite;
+  }
+
+  .marquee-item {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 0 40px;
+  }
+
+  .marquee-dot {
+    color: var(--rose);
+    padding: 0 10px;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION STYLES ── */
+  section { padding: 80px 80px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .section-line {
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .section-title em { font-style: italic; color: var(--dusty); }
+
+  .section-sub {
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  /* ── SHOP GRID ── */
+  #shop { background: var(--white); }
+
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .shop-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: var(--blush);
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+
+  .shop-card:first-child {
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+
+  .shop-card-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px;
+    transition: transform 0.6s ease;
+  }
+
+  .shop-card:hover .shop-card-bg { transform: scale(1.05); }
+
+  .shop-card-bg.c1 { background: #f5e8e0; }
+  .shop-card-bg.c2 { background: #e8f0eb; }
+  .shop-card-bg.c3 { background: #e8e4f0; }
+  .shop-card-bg.c4 { background: #f0ebe4; }
+  .shop-card-bg.c5 { background: #eaf0f5; }
+
+  .shop-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(46,30,21,0.7) 0%, transparent 50%);
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    transition: background 0.3s;
+  }
+
+  .shop-card:hover .shop-card-overlay {
+    background: linear-gradient(to top, rgba(46,30,21,0.85) 0%, rgba(46,30,21,0.1) 60%);
+  }
+
+  .shop-card-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
+  }
+
+  .shop-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .shop-card-link {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose);
+    display: flex; align-items: center; gap: 8px;
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .shop-card:hover .shop-card-link {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* ── DIGITAL DOWNLOADS FEATURE ── */
+  #digital { background: var(--cream); }
+
+  .digital-feature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .digital-visual {
+    position: relative;
+  }
+
+  .digital-stack {
+    position: relative;
+    height: 400px;
+  }
+
+  .digital-card {
+    position: absolute;
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 24px;
+    width: 240px;
+    transition: transform 0.3s;
+  }
+
+  .digital-card:nth-child(1) { top: 0; left: 0; transform: rotate(-3deg); z-index: 1; }
+  .digital-card:nth-child(2) { top: 40px; left: 40px; transform: rotate(1deg); z-index: 2; }
+  .digital-card:nth-child(3) { top: 80px; left: 80px; transform: rotate(-1deg); z-index: 3; }
+
+  .digital-card:hover { transform: rotate(0) scale(1.03) !important; z-index: 10; }
+
+  .digital-card-icon { font-size: 32px; margin-bottom: 12px; }
+
+  .digital-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .digital-card-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .digital-card-price {
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dusty);
+  }
+
+  /* ── EVENT PROPS FEATURE ── */
+  #props { background: var(--blush); }
+
+  .props-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+  }
+
+  .prop-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .prop-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(122,79,58,0.12);
+  }
+
+  .prop-thumb {
+    height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px;
+  }
+
+  .prop-thumb.p1 { background: #fceef5; }
+  .prop-thumb.p2 { background: #eef5fc; }
+  .prop-thumb.p3 { background: #f5fce8; }
+  .prop-thumb.p4 { background: #fcf5e8; }
+
+  .prop-info { padding: 16px; }
+
+  .prop-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .prop-sub {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .prop-price {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dusty);
+  }
+
+  /* ── EXTERNAL SHOPS ── */
+  #external { background: var(--text); }
+
+  #external .section-eyebrow { color: rgba(255,255,255,0.4); }
+  #external .section-line { background: rgba(255,255,255,0.1); }
+  #external .section-title { color: var(--cream); }
+  #external .section-sub { color: rgba(255,255,255,0.5); }
+
+  .ext-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .ext-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 48px;
+    text-decoration: none;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.3s;
+  }
+
+  .ext-card:hover { background: rgba(255,255,255,0.08); }
+
+  .ext-card-left { }
+
+  .ext-card-platform {
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 10px;
+  }
+
+  .ext-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .ext-card-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    max-width: 280px;
+    line-height: 1.7;
+  }
+
+  .ext-card-arrow {
+    font-size: 32px;
+    color: rgba(255,255,255,0.2);
+    transition: color 0.3s, transform 0.3s;
+  }
+
+  .ext-card:hover .ext-card-arrow {
+    color: var(--rose);
+    transform: translate(4px, -4px);
+  }
+
+  /* ── SOCIAL ── */
+  #social { background: var(--cream); }
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+
+  .social-tile {
+    aspect-ratio: 1;
+    background: var(--blush);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .social-tile:hover { transform: scale(1.02); z-index: 2; }
+
+  .social-tile-overlay {
+    position: absolute; inset: 0;
+    background: var(--text);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 6px;
+  }
+
+  .social-tile:hover .social-tile-overlay { opacity: 0.92; }
+
+  .social-tile-name {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+
+  .social-tile-handle {
+    font-size: 13px;
+    color: var(--rose);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  .st1 { background: #fceef7; }
+  .st2 { background: #fef4ee; }
+  .st3 { background: #fff0ee; }
+  .st4 { background: #f2effc; }
+  .st5 { background: #eef8f2; }
+
+  /* ── NEWSLETTER ── */
+  #newsletter { background: var(--blush); padding: 80px; }
+
+  .newsletter-inner {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .newsletter-inner .section-header { justify-content: center; }
+  .newsletter-inner .section-title { margin: 0 auto 16px; }
+  .newsletter-inner .section-sub { margin: 0 auto 36px; }
+
+  .newsletter-form {
+    display: flex; gap: 0;
+    border: 1px solid var(--border);
+    background: var(--white);
+    overflow: hidden;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    padding: 16px 20px;
+    border: none;
+    outline: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    background: transparent;
+    color: var(--text);
+  }
+
+  .newsletter-form input::placeholder { color: var(--muted); }
+
+  .newsletter-form button {
+    background: var(--text);
+    color: var(--cream);
+    border: none;
+    padding: 16px 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .newsletter-form button:hover { background: var(--deep); }
+
+  .newsletter-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #1a0d08;
+    color: rgba(255,255,255,0.5);
+    padding: 60px 80px 40px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 32px;
+  }
+
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .footer-brand-desc {
+    font-size: 13px;
+    line-height: 1.8;
+    max-width: 280px;
+    margin-bottom: 24px;
+  }
+
+  .footer-social-links { display: flex; gap: 16px; }
+  .footer-social-links a {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 14px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social-links a:hover { border-color: var(--rose); color: var(--rose); }
+
+  .footer-col-title {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 20px;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col ul li a:hover { color: var(--rose); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .footer-bottom a { color: rgba(255,255,255,0.3); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--rose); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes fadeRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-right { display: none; }
+    .hamburger { display: flex; }
+
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-text { padding: 60px 24px; }
+    .hero-visual { height: 320px; }
+
+    section { padding: 60px 24px; }
+    #newsletter { padding: 60px 24px; }
+    footer { padding: 48px 24px 32px; }
+
+    .shop-grid { grid-template-columns: 1fr 1fr; }
+    .shop-card:first-child { grid-row: span 1; }
+    .digital-feature { grid-template-columns: 1fr; }
+    .digital-stack { height: 280px; }
+    .props-grid { grid-template-columns: 1fr 1fr; }
+    .ext-grid { grid-template-columns: 1fr; }
+    .social-grid { grid-template-columns: repeat(3, 1fr); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+
+    /* Mobile nav */
+    .mobile-nav {
+      display: none;
+      position: fixed; inset: 0;
+      background: var(--cream);
+      z-index: 500;
+      padding: 80px 32px 40px;
+      flex-direction: column;
+      gap: 0;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text); text-decoration: none;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-nav-close {
+      position: absolute; top: 20px; right: 24px;
+      font-size: 28px; cursor: pointer; color: var(--text);
+      background: none; border: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="closeMobileNav()">×</button>
+  <a href="#shop">Shop All</a>
+  <a href="#digital">Digital Downloads</a>
+  <a href="#props">Event Props</a>
+  <a href="#external">Etsy & Amazon</a>
+  <a href="https://www.tiktok.com/@murrzstudio" target="_blank">TikTok</a>
+  <a href="https://www.instagram.com/murrzstudio/" target="_blank">Instagram</a>
+  <a href="https://www.youtube.com/@Murrz" target="_blank">YouTube</a>
+  <a href="https://www.facebook.com/murrzstudio/" target="_blank">Facebook</a>
+  <a href="#newsletter">Newsletter</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">murrzstudio</a>
+  <ul class="nav-links">
+    <li>
+      <span>Shop ▾</span>
+      <div class="dropdown">
+        <a href="#shop">Shop All</a>
+        <a href="#digital">Digital Downloads</a>
+        <a href="#props">Event Props</a>
+        <a href="#external">Etsy Shop</a>
+        <a href="#external">Amazon Storefront</a>
+      </div>
+    </li>
+    <li>
+      <span>Digital Downloads ▾</span>
+      <div class="dropdown">
+        <a href="#digital">Printables</a>
+        <a href="#digital">Planners</a>
+        <a href="#digital">Art Packs</a>
+        <a href="#digital">Templates</a>
+      </div>
+    </li>
+    <li>
+      <span>Event Props ▾</span>
+      <div class="dropdown">
+        <a href="#props">Photo Booth Props</a>
+        <a href="#props">Party Banners</a>
+        <a href="#props">Backdrop Sets</a>
+        <a href="#props">Custom Orders</a>
+      </div>
+    </li>
+    <li><a href="#social">Follow</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#external">Etsy</a>
+    <a href="#external">Amazon</a>
+    <a href="#" class="cart-btn">Cart (0)</a>
+  </div>
+  <div class="hamburger" onclick="openMobileNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0">
+  <div class="hero-text">
+    <p class="hero-eyebrow">welcome to murrzstudio</p>
+    <h1 class="hero-title">
+      Cozy, <em>curated</em><br/>
+      & made<br/>
+      with love.
+    </h1>
+    <p class="hero-sub">Digital downloads, event props, and everything in between — designed to bring warmth and beauty to your everyday moments and celebrations.</p>
+    <div class="hero-btns">
+      <a href="#shop" class="btn-primary">Shop Now</a>
+      <a href="#digital" class="btn-outline">Digital Downloads</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-monogram">ms</div>
+    <div class="hero-badge">
+      <div class="hero-badge-inner">
+        <span class="hero-badge-name">murrz</span>
+        <span class="hero-badge-sub">studio ✦</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span class="marquee-item">Digital Downloads</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Event Props</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Etsy Shop</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Amazon Storefront</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Printables</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Party Props</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Instant Download</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Digital Downloads</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Event Props</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Etsy Shop</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Amazon Storefront</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Printables</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Party Props</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Instant Download</span><span class="marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- SHOP GRID -->
+<section id="shop">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">browse the studio</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="shop-grid reveal">
+    <a href="#digital" class="shop-card">
+      <div class="shop-card-bg c1">🌸</div>
+      <div class="shop-card-overlay">
+        <span class="shop-card-label">featured</span>
+        <h3 class="shop-card-name">Learning Posters</h3>
+        <span class="shop-card-link">Shop Now →</span>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/korean-siru-yarn-cake" target="_blank" class="shop-card">
+      <div class="shop-card-bg c2">🎀</div>
+      <div class="shop-card-overlay">
+        <span class="shop-card-label">handcrafted</span>
+        <h3 class="shop-card-name">Siru Yarn Cake</h3>
+        <span class="shop-card-link">Shop Now →</span>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/animals-learning-poster-printable-instant-download-copy" target="_blank" class="shop-card">
+      <div class="shop-card-bg c3">🐾</div>
+      <div class="shop-card-overlay">
+        <span class="shop-card-label">instant download</span>
+        <h3 class="shop-card-name">Animals Poster</h3>
+        <span class="shop-card-link">Buy Now →</span>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/feelings-learning-poster-printable-instant-download-copy-copy" target="_blank" class="shop-card">
+      <div class="shop-card-bg c4">🌈</div>
+      <div class="shop-card-overlay">
+        <span class="shop-card-label">instant download</span>
+        <h3 class="shop-card-name">Feelings Poster</h3>
+        <span class="shop-card-link">Buy Now →</span>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/shapes-learning-poster-printable-instant-download" target="_blank" class="shop-card">
+      <div class="shop-card-bg c5">🔷</div>
+      <div class="shop-card-overlay">
+        <span class="shop-card-label">instant download</span>
+        <h3 class="shop-card-name">Shapes Poster</h3>
+        <span class="shop-card-link">Buy Now →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- DIGITAL DOWNLOADS -->
+<section id="digital">
+  <div class="reveal">
+    <div class="section-header">
+      <span class="section-eyebrow">instant downloads</span>
+      <div class="section-line"></div>
+    </div>
+    <h2 class="section-title">Download.<br/><em>Print. Love.</em></h2>
+    <p class="section-sub">Beautiful printable learning posters for little ones — yours the moment you purchase. No waiting, no shipping, just instant files delivered to your inbox.</p>
+  </div>
+  <div class="props-grid" style="grid-template-columns:repeat(3,1fr);margin-top:40px;">
+    <a href="https://murrz-studio.myshopify.com/products/animals-learning-poster-printable-instant-download-copy" target="_blank" class="prop-card reveal">
+      <div class="prop-thumb p1" style="font-size:48px;">🐾</div>
+      <div class="prop-info">
+        <div class="prop-name">Animals Learning Poster</div>
+        <div class="prop-sub">printable · instant download</div>
+        <div class="prop-price">Shop Now →</div>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/color-learning-poster-printable-instant-download" target="_blank" class="prop-card reveal" style="transition-delay:0.05s">
+      <div class="prop-thumb p2" style="font-size:48px;">🎨</div>
+      <div class="prop-info">
+        <div class="prop-name">Color Learning Poster</div>
+        <div class="prop-sub">printable · instant download</div>
+        <div class="prop-price">Shop Now →</div>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/days-of-the-week-learning-poster-printable-instant-download" target="_blank" class="prop-card reveal" style="transition-delay:0.1s">
+      <div class="prop-thumb p3" style="font-size:48px;">📅</div>
+      <div class="prop-info">
+        <div class="prop-name">Days of the Week Poster</div>
+        <div class="prop-sub">printable · instant download</div>
+        <div class="prop-price">Shop Now →</div>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/feelings-learning-poster-printable-instant-download-copy-copy" target="_blank" class="prop-card reveal" style="transition-delay:0.15s">
+      <div class="prop-thumb p4" style="font-size:48px;">🌈</div>
+      <div class="prop-info">
+        <div class="prop-name">Feelings Learning Poster</div>
+        <div class="prop-sub">printable · instant download</div>
+        <div class="prop-price">Shop Now →</div>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com/products/shapes-learning-poster-printable-instant-download" target="_blank" class="prop-card reveal" style="transition-delay:0.2s">
+      <div class="prop-thumb p1" style="font-size:48px;">🔷</div>
+      <div class="prop-info">
+        <div class="prop-name">Shapes Learning Poster</div>
+        <div class="prop-sub">printable · instant download</div>
+        <div class="prop-price">Shop Now →</div>
+      </div>
+    </a>
+    <div class="prop-card reveal" style="transition-delay:0.25s;background:var(--blush);border:1px dashed var(--rose);display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:default;">
+      <div style="text-align:center;padding:24px;">
+        <div style="font-size:32px;margin-bottom:12px;">✦</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:6px;">More coming soon</div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">New drops regularly</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENT PROPS -->
+<section id="props">
+  <div class="reveal">
+    <div class="section-header">
+      <span class="section-eyebrow">event props & party supplies</span>
+      <div class="section-line"></div>
+    </div>
+    <h2 class="section-title">Make every<br/><em>moment memorable.</em></h2>
+    <p class="section-sub">Handcrafted props for Korean celebrations, baby milestones, and every special occasion in between.</p>
+  </div>
+  <div class="props-grid" style="grid-template-columns:repeat(2,1fr);max-width:700px;">
+    <a href="https://murrz-studio.myshopify.com/products/korean-siru-yarn-cake" target="_blank" class="prop-card reveal" style="grid-column:1/-1;">
+      <div class="prop-thumb p2" style="height:280px;font-size:72px;">🎀</div>
+      <div class="prop-info" style="padding:20px 24px;">
+        <div class="prop-name" style="font-size:24px;">Korean Siru Yarn Cake</div>
+        <div class="prop-sub">handcrafted · dohl · baekil · baby shower</div>
+        <div style="font-size:13px;color:var(--muted);margin:10px 0 14px;line-height:1.7;max-width:480px;">A gorgeous handcrafted yarn cake inspired by traditional Korean Dohl and Baekil celebrations. Perfect as a centerpiece, photo prop, or keepsake.</div>
+        <div style="display:flex;align-items:center;gap:20px;">
+          <div class="prop-price" style="font-size:20px;">$45.00</div>
+          <span class="btn-primary" style="font-size:10px;padding:10px 24px;">Shop Now →</span>
+        </div>
+      </div>
+    </a>
+    <div class="prop-card reveal" style="border:1px dashed var(--rose);background:var(--blush);display:flex;align-items:center;justify-content:center;cursor:default;text-decoration:none;">
+      <div style="text-align:center;padding:32px;">
+        <div style="font-size:28px;margin-bottom:10px;">✦</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:6px;">Custom orders welcome</div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">message us for details</div>
+      </div>
+    </div>
+    <div class="prop-card reveal" style="transition-delay:0.1s;border:1px dashed var(--rose);background:var(--blush);display:flex;align-items:center;justify-content:center;cursor:default;text-decoration:none;">
+      <div style="text-align:center;padding:32px;">
+        <div style="font-size:28px;margin-bottom:10px;">🌸</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:6px;">More props coming soon</div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">stay tuned</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXTERNAL SHOPS -->
+<section id="external">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">find me everywhere</span>
+    <div class="section-line" style="background:rgba(255,255,255,0.1)"></div>
+  </div>
+  <h2 class="section-title reveal" style="color:var(--cream);margin-bottom:12px;">Shop across<br/><em style="color:var(--rose)">all my stores.</em></h2>
+  <p class="section-sub reveal" style="color:rgba(255,255,255,0.5);margin-bottom:48px;">Whether you're after instant digital downloads or physical products, you can find murrzstudio on your favorite platforms.</p>
+  <div class="ext-grid reveal">
+    <a href="#" class="ext-card">
+      <div class="ext-card-left">
+        <div class="ext-card-platform">Etsy</div>
+        <div class="ext-card-title">Digital Downloads<br/>& Printables</div>
+        <div class="ext-card-desc">Instant download planners, art packs, templates, and more — all available on Etsy.</div>
+      </div>
+      <div class="ext-card-arrow">↗</div>
+    </a>
+    <a href="#" class="ext-card">
+      <div class="ext-card-left">
+        <div class="ext-card-platform">Amazon</div>
+        <div class="ext-card-title">My Amazon<br/>Storefront</div>
+        <div class="ext-card-desc">Browse my curated product picks, favorites, and murrzstudio items on Amazon.</div>
+      </div>
+      <div class="ext-card-arrow">↗</div>
+    </a>
+  </div>
+</section>
+
+<!-- SOCIAL LINKS -->
+<section id="social">
+  <div class="section-header reveal">
+    <span class="section-eyebrow">follow along</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title reveal">Come say <em>hi.</em></h2>
+  <p class="section-sub reveal" style="margin-bottom:40px;">Behind-the-scenes, new drops, cozy content and more — find me on all your favorites.</p>
+  <div class="social-grid reveal">
+    <a href="https://www.tiktok.com/@murrzstudio" target="_blank" class="social-tile st1">
+      <span style="font-size:36px">📱</span>
+      <div class="social-tile-overlay">
+        <span class="social-tile-name">TikTok</span>
+        <span class="social-tile-handle">@murrzstudio</span>
+      </div>
+    </a>
+    <a href="https://www.instagram.com/murrzstudio/" target="_blank" class="social-tile st2">
+      <span style="font-size:36px">📸</span>
+      <div class="social-tile-overlay">
+        <span class="social-tile-name">Instagram</span>
+        <span class="social-tile-handle">@murrzstudio</span>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@Murrz" target="_blank" class="social-tile st3">
+      <span style="font-size:36px">▶️</span>
+      <div class="social-tile-overlay">
+        <span class="social-tile-name">YouTube</span>
+        <span class="social-tile-handle">@Murrz</span>
+      </div>
+    </a>
+    <a href="https://www.facebook.com/murrzstudio/" target="_blank" class="social-tile st4">
+      <span style="font-size:36px">💬</span>
+      <div class="social-tile-overlay">
+        <span class="social-tile-name">Facebook</span>
+        <span class="social-tile-handle">murrzstudio</span>
+      </div>
+    </a>
+    <a href="https://murrz-studio.myshopify.com" target="_blank" class="social-tile st5">
+      <span style="font-size:36px">🛍️</span>
+      <div class="social-tile-overlay">
+        <span class="social-tile-name">Shop</span>
+        <span class="social-tile-handle">murrz-studio</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-inner">
+    <div class="section-header reveal" style="justify-content:center;">
+      <span class="section-eyebrow">stay in the loop</span>
+    </div>
+    <h2 class="section-title reveal">New drops,<br/><em>first.</em></h2>
+    <p class="section-sub reveal">Join the murrzstudio community for exclusive discounts, new product announcements, and cozy inspiration delivered to your inbox.</p>
+    <div class="newsletter-form reveal">
+      <input type="email" placeholder="your@email.com"/>
+      <button type="button">Subscribe</button>
+    </div>
+    <p class="newsletter-note reveal">No spam, ever. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">murrzstudio</div>
+      <p class="footer-brand-desc">Cozy digital downloads, event props, and curated products — designed with love for life's most meaningful moments.</p>
+      <div class="footer-social-links">
+        <a href="https://www.tiktok.com/@murrzstudio" target="_blank" title="TikTok">T</a>
+        <a href="https://www.instagram.com/murrzstudio/" target="_blank" title="Instagram">I</a>
+        <a href="https://www.youtube.com/@Murrz" target="_blank" title="YouTube">Y</a>
+        <a href="https://www.facebook.com/murrzstudio/" target="_blank" title="Facebook">F</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Shop</div>
+      <ul>
+        <li><a href="#digital">Digital Downloads</a></li>
+        <li><a href="#props">Event Props</a></li>
+        <li><a href="https://murrz-studio.myshopify.com/products/korean-siru-yarn-cake" target="_blank">Siru Yarn Cake</a></li>
+        <li><a href="#external">Etsy Shop</a></li>
+        <li><a href="#external">Amazon Storefront</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Digital</div>
+      <ul>
+        <li><a href="https://murrz-studio.myshopify.com/products/animals-learning-poster-printable-instant-download-copy" target="_blank">Animals Poster</a></li>
+        <li><a href="https://murrz-studio.myshopify.com/products/color-learning-poster-printable-instant-download" target="_blank">Color Poster</a></li>
+        <li><a href="https://murrz-studio.myshopify.com/products/days-of-the-week-learning-poster-printable-instant-download" target="_blank">Days of the Week</a></li>
+        <li><a href="https://murrz-studio.myshopify.com/products/feelings-learning-poster-printable-instant-download-copy-copy" target="_blank">Feelings Poster</a></li>
+        <li><a href="https://murrz-studio.myshopify.com/products/shapes-learning-poster-printable-instant-download" target="_blank">Shapes Poster</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Info</div>
+      <ul>
+        <li><a href="#">About murrzstudio</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#newsletter">Newsletter</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Licensing</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 murrzstudio. All rights reserved.</span>
+    <span>
+      <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="#">Terms of Use</a> &nbsp;·&nbsp;
+      <a href="#">Licensing</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  if (cursor && ring) {
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    });
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Mobile nav
+  function openMobileNav() {
+    document.getElementById('mobileNav').classList.add('open');
+  }
+  function closeMobileNav() {
+    document.getElementById('mobileNav').classList.remove('open');
+  }
+  document.querySelectorAll('.mobile-nav a').forEach(a => {
+    a.addEventListener('click', closeMobileNav);
+  });
+</script>
+</body>
+</html>
