@@ -23,7 +23,7 @@
     .breadcrumb a { color: var(--rose); text-decoration: none; }
     .product-hero-text h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 4.5vw, 3.5rem); line-height: 1.15; color: var(--brown); margin-bottom: 1rem; }
     .product-hero-text p { font-size: 1.05rem; color: #6b4a38; max-width: 440px; margin-bottom: 2rem; }
-    .product-hero-visual { display: flex; align-items: center; justify-content: center; font-size: 12rem; line-height: 1; }
+    .product-hero-visual { display: flex; align-items: center; justify-content: center; font-size: 12rem; line-height: 1; overflow: hidden; border-radius: 24px; }
     .content-block { max-width: 900px; margin: 0 auto; padding: 4rem 2.5rem; }
     .content-block h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--brown); margin-bottom: 1rem; }
     .content-block p { color: #6b4a38; margin-bottom: 1rem; font-size: 0.97rem; }
@@ -84,7 +84,9 @@
     <p>Hand-decorated sugar cookies with royal icing, crafted for any theme, color, or occasion. Each one is a tiny edible work of art.</p>
     <a href="index.html#order" class="btn">Order a Set</a>
   </div>
-  <div class="product-hero-visual">&#x1F36A;</div>
+  <div class="product-hero-visual">
+    <img src="cookies-hero.png" alt="Custom decorated cookies" style="width:100%;height:100%;object-fit:cover;border-radius:24px;max-height:520px;" />
+  </div>
 </section>
 <div class="content-block">
   <h2>What makes these special</h2>
