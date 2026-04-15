@@ -7,19 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --cream: #fdf6ee; --blush: #f5cfc8; --rose: #d4836e;
-      --brown: #7a4f3a; --mocha: #3d2314; --white: #fff;
-    }
+    :root { --cream: #fdf6ee; --blush: #f5cfc8; --rose: #d4836e; --brown: #7a4f3a; --mocha: #3d2314; --sage: #b5c4b1; --white: #fff; }
     html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--mocha); line-height: 1.6; }
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--white);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2.5rem;
-      border-bottom: 1px solid #f0e6dd;
-    }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--white); display: flex; align-items: center; justify-content: space-between; padding: 1rem 2.5rem; border-bottom: 1px solid #f0e6dd; }
     .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown); letter-spacing: 0.04em; text-decoration: none; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--mocha); text-decoration: none; transition: color 0.2s; }
@@ -45,7 +36,7 @@
     .section-title p { color: #7a5a4a; font-size: 1rem; }
     #menu { padding: 5rem 2.5rem; }
     .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.75rem; max-width: 1100px; margin: 0 auto; }
-    .product-card { background: var(--white); border-radius: 20px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+    .product-card { background: var(--white); border-radius: 20px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
     .product-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(122,79,58,0.12); }
     .product-thumb { background: var(--blush); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
     .product-thumb.sage-bg { background: #dce8d8; }
@@ -58,12 +49,17 @@
     .add-btn { background: var(--rose); color: var(--white); border: none; border-radius: 50px; padding: 0.45rem 1.1rem; font-size: 0.82rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: background 0.2s; }
     .add-btn:hover { background: var(--brown); }
     #order { background: var(--white); padding: 5rem 2.5rem; }
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; text-align: center; }
-    .step { padding: 1.5rem; }
-    .step-icon { width: 70px; height: 70px; background: var(--cream); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1rem; }
-    .step h4 { font-family: 'Playfair Display', serif; color: var(--brown); margin-bottom: 0.4rem; }
-    .step p { font-size: 0.88rem; color: #7a5a4a; }
-    .step-num { font-size: 0.75rem; font-weight: 600; color: var(--rose); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .order-wrap { max-width: 680px; margin: 0 auto; }
+    .order-form { background: var(--cream); border-radius: 24px; padding: 2.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--brown); letter-spacing: 0.04em; text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea { background: var(--white); border: 1.5px solid #e8d8d0; border-radius: 10px; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--mocha); outline: none; transition: border-color 0.2s; width: 100%; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--rose); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d4836e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    .form-submit { width: 100%; padding: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; margin-top: 0.5rem; }
+    .form-note { font-size: 0.8rem; color: #9a7a6a; text-align: center; margin-top: 1rem; }
     #about { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
     .about-img { background: var(--blush); border-radius: 30px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
     .about-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 2.5vw, 2.4rem); color: var(--brown); margin-bottom: 1rem; }
@@ -94,6 +90,8 @@
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
       nav { padding: 1rem 1.5rem; }
       .nav-links { gap: 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .order-form { padding: 1.5rem; }
     }
   </style>
 </head>
@@ -113,7 +111,7 @@
   <div class="hero-text">
     <h1>Handmade sweets<br>made with <em>love</em></h1>
     <p>Custom macarons, cookies, cupcakes &amp; cakes baked fresh for your special moments. Every treat is made to order, just for you.</p>
-    <a href="https://www.instagram.com/Murrz" target="_blank" class="btn">DM to Order</a>
+    <a href="#order" class="btn">Place an Order</a>
     <a href="https://murrz-studio.myshopify.com" target="_blank" class="btn btn-outline">Shop Online</a>
   </div>
   <div class="hero-img">
@@ -141,7 +139,7 @@
       <div class="product-info">
         <h3>Custom Macarons</h3>
         <p>Delicate French macarons in your choice of flavors and colors. Perfect for weddings, parties &amp; gifts.</p>
-        <div class="product-footer"><span class="product-price">From $3 ea.</span><a href="https://murrz-studio.myshopify.com" target="_blank" class="add-btn">Order</a></div>
+        <div class="product-footer"><span class="product-price">From $3 ea.</span><a href="#order" class="add-btn">Order</a></div>
       </div>
     </div>
     <div class="product-card">
@@ -149,7 +147,7 @@
       <div class="product-info">
         <h3>Decorated Cookies</h3>
         <p>Hand-decorated sugar cookies with royal icing in any theme or color palette you love.</p>
-        <div class="product-footer"><span class="product-price">From $5 ea.</span><a href="https://murrz-studio.myshopify.com" target="_blank" class="add-btn">Order</a></div>
+        <div class="product-footer"><span class="product-price">From $5 ea.</span><a href="#order" class="add-btn">Order</a></div>
       </div>
     </div>
     <div class="product-card">
@@ -157,7 +155,7 @@
       <div class="product-info">
         <h3>Custom Cupcakes</h3>
         <p>Fluffy cupcakes topped with gorgeous buttercream swirls, great for any occasion.</p>
-        <div class="product-footer"><span class="product-price">From $4 ea.</span><a href="https://murrz-studio.myshopify.com" target="_blank" class="add-btn">Order</a></div>
+        <div class="product-footer"><span class="product-price">From $4 ea.</span><a href="#order" class="add-btn">Order</a></div>
       </div>
     </div>
     <div class="product-card">
@@ -165,33 +163,78 @@
       <div class="product-info">
         <h3>Celebration Cakes</h3>
         <p>Fully custom cakes designed around your vision: birthdays, weddings, showers &amp; more.</p>
-        <div class="product-footer"><span class="product-price">From $60</span><a href="https://murrz-studio.myshopify.com" target="_blank" class="add-btn">Order</a></div>
+        <div class="product-footer"><span class="product-price">From $60</span><a href="#order" class="add-btn">Order</a></div>
       </div>
     </div>
   </div>
 </section>
 
 <section id="order">
-  <div class="section-title"><h2>How to Order</h2><p>Easy as 1, 2, 3</p></div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">Step 01</div><div class="step-icon">💬</div>
-      <h4>Send a DM</h4>
-      <p>Message us on <a href="https://www.instagram.com/Murrz" target="_blank" style="color:var(--rose);font-weight:500;">Instagram @Murrz</a> with your idea, flavors, quantity &amp; pickup date.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">Step 02</div><div class="step-icon">📋</div>
-      <h4>Confirm &amp; Pay</h4>
-      <p>We'll send a quote and invoice. A deposit locks in your order. Pay securely through our <a href="https://murrz-studio.myshopify.com" target="_blank" style="color:var(--rose);font-weight:500;">online shop</a>.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">Step 03</div><div class="step-icon">🎉</div>
-      <h4>Pick Up &amp; Enjoy!</h4>
-      <p>Your treats are baked fresh and ready for pickup. Time to celebrate!</p>
-    </div>
+  <div class="section-title">
+    <h2>Place an Order</h2>
+    <p>Fill out the form and I'll get back to you within 24 hours with a quote!</p>
   </div>
-  <div style="text-align:center;margin-top:3rem;">
-    <a href="https://www.instagram.com/Murrz" target="_blank" class="btn">DM Us on Instagram</a>
+  <div class="order-wrap">
+    <form class="order-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Your Name *</label>
+          <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" placeholder="jane@email.com" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" />
+        </div>
+        <div class="form-group">
+          <label for="pickup">Event / Pickup Date *</label>
+          <input type="date" id="pickup" name="pickup_date" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="product">What would you like? *</label>
+          <select id="product" name="product" required>
+            <option value="" disabled selected>Choose a treat...</option>
+            <option value="macarons">Custom Macarons</option>
+            <option value="cookies">Decorated Cookies</option>
+            <option value="cupcakes">Custom Cupcakes</option>
+            <option value="cake">Celebration Cake</option>
+            <option value="mixed">Mixed / Multiple Items</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="quantity">Quantity / Size</label>
+          <input type="text" id="quantity" name="quantity" placeholder="e.g. 1 dozen, 6 inch cake" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="flavors">Flavor Preferences</label>
+        <input type="text" id="flavors" name="flavors" placeholder="e.g. vanilla, strawberry, matcha, chocolate..." />
+      </div>
+      <div class="form-group">
+        <label for="design">Design Ideas &amp; Notes *</label>
+        <textarea id="design" name="design" placeholder="Tell me about your vision! Colors, theme, occasion, any inspiration photos you have..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="budget">Budget Range (optional)</label>
+        <select id="budget" name="budget">
+          <option value="" disabled selected>Select a range...</option>
+          <option value="under50">Under $50</option>
+          <option value="50-100">$50 - $100</option>
+          <option value="100-200">$100 - $200</option>
+          <option value="200+">$200+</option>
+          <option value="flexible">Flexible / Not sure yet</option>
+        </select>
+      </div>
+      <button type="submit" class="btn form-submit">Send My Order Request</button>
+      <p class="form-note">I'll reply within 24 hours with pricing and availability. A deposit will be required to confirm your order.</p>
+    </form>
   </div>
 </section>
 
@@ -233,7 +276,7 @@
 <div class="cta-banner">
   <h2>Ready to order something sweet?</h2>
   <p>All treats are made to order. Reach out early so we can plan your perfect creation!</p>
-  <a href="https://www.instagram.com/Murrz" target="_blank" class="btn btn-light" style="margin-right:0.75rem;">DM on Instagram</a>
+  <a href="#order" class="btn btn-light" style="margin-right:0.75rem;">Place an Order</a>
   <a href="https://murrz-studio.myshopify.com" target="_blank" class="btn" style="background:var(--blush);color:var(--brown);">Shop Online</a>
 </div>
 
