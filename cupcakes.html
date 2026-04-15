@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Cupcakes | murrz studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --cream: #fdf6ee; --blush: #f5cfc8; --rose: #d4836e; --brown: #7a4f3a; --mocha: #3d2314; --white: #fff; --accent: #f7edcc; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--mocha); line-height: 1.6; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--white); display: flex; align-items: center; justify-content: space-between; padding: 1rem 2.5rem; border-bottom: 1px solid #f0e6dd; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--brown); letter-spacing: 0.04em; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--mocha); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--rose); }
+    .btn { display: inline-block; background: var(--rose); color: var(--white); padding: 0.85rem 2rem; border-radius: 50px; font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: background 0.2s, transform 0.15s; border: none; cursor: pointer; }
+    .btn:hover { background: var(--brown); transform: translateY(-2px); }
+    .btn-sm { padding: 0.5rem 1.2rem; font-size: 0.85rem; }
+    .product-hero { background: var(--accent); display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; align-items: center; padding: 4rem 2.5rem; gap: 3rem; }
+    .breadcrumb { font-size: 0.82rem; color: var(--rose); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--rose); text-decoration: none; }
+    .product-hero-text h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 4.5vw, 3.5rem); line-height: 1.15; color: var(--brown); margin-bottom: 1rem; }
+    .product-hero-text p { font-size: 1.05rem; color: #6b4a38; max-width: 440px; margin-bottom: 2rem; }
+    .product-hero-visual { display: flex; align-items: center; justify-content: center; font-size: 12rem; line-height: 1; }
+    .content-block { max-width: 900px; margin: 0 auto; padding: 4rem 2.5rem; }
+    .content-block h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--brown); margin-bottom: 1rem; }
+    .content-block p { color: #6b4a38; margin-bottom: 1rem; font-size: 0.97rem; }
+    .pricing-section { background: var(--white); padding: 4rem 2.5rem; }
+    .pricing-inner { max-width: 900px; margin: 0 auto; }
+    .pricing-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--brown); margin-bottom: 0.5rem; }
+    .pricing-inner .subtitle { color: #7a5a4a; font-size: 0.95rem; margin-bottom: 2.5rem; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+    .price-card { background: var(--cream); border-radius: 18px; padding: 1.8rem 1.5rem; text-align: center; border: 2px solid transparent; transition: border-color 0.2s; }
+    .price-card:hover { border-color: var(--rose); }
+    .price-card.featured { background: var(--accent); }
+    .price-card .qty { font-size: 0.85rem; font-weight: 600; color: var(--brown); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .price-card .amount { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--rose); font-weight: 600; }
+    .price-card .per { font-size: 0.8rem; color: #9a7a6a; margin-top: 0.3rem; }
+    .addon-note { background: #fdf0eb; border-left: 3px solid var(--rose); border-radius: 0 10px 10px 0; padding: 1rem 1.4rem; font-size: 0.9rem; color: #7a4f3a; }
+    .addon-note strong { display: block; margin-bottom: 0.2rem; }
+    .flavors-section { padding: 4rem 2.5rem; }
+    .flavors-inner { max-width: 900px; margin: 0 auto; }
+    .flavors-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--brown); margin-bottom: 0.5rem; }
+    .flavors-inner .subtitle { color: #7a5a4a; font-size: 0.95rem; margin-bottom: 2rem; }
+    .flavor-label { font-size: 0.88rem; font-weight: 600; color: var(--brown); margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .flavor-tags { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 1.5rem; }
+    .flavor-tag { background: var(--accent); color: var(--brown); border-radius: 50px; padding: 0.45rem 1.1rem; font-size: 0.87rem; font-weight: 500; }
+    .details-section { background: var(--white); padding: 4rem 2.5rem; }
+    .details-inner { max-width: 900px; margin: 0 auto; }
+    .details-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--brown); margin-bottom: 2rem; }
+    .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; }
+    .detail-item .icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+    .detail-item h4 { font-size: 0.82rem; font-weight: 600; color: var(--rose); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .detail-item p { font-size: 0.9rem; color: #6b4a38; }
+    .cta-banner { background: var(--brown); color: var(--white); text-align: center; padding: 4rem 2.5rem; }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); margin-bottom: 0.8rem; }
+    .cta-banner p { opacity: 0.85; margin-bottom: 2rem; font-size: 1rem; }
+    .btn-light { background: var(--cream); color: var(--brown); }
+    footer { background: var(--mocha); color: #c9a89a; text-align: center; padding: 2rem 2.5rem; font-size: 0.85rem; }
+    footer a { color: var(--blush); text-decoration: none; }
+    @media (max-width: 768px) { .product-hero { grid-template-columns: 1fr; min-height: auto; } .product-hero-visual { font-size: 7rem; } nav { padding: 1rem 1.5rem; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">murrz studio</a>
+  <ul class="nav-links">
+    <li><a href="index.html#menu">Menu</a></li>
+    <li><a href="index.html#order">Order</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#order" class="btn btn-sm">Order Now</a></li>
+  </ul>
+</nav>
+<section class="product-hero">
+  <div class="product-hero-text">
+    <p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; <a href="index.html#menu">Menu</a> &rsaquo; Cupcakes</p>
+    <h1>Custom Cupcakes</h1>
+    <p>Fluffy, moist cupcakes topped with gorgeous buttercream swirls and custom decorations. Perfect for any gathering, big or small.</p>
+    <a href="index.html#order" class="btn">Order a Dozen</a>
+  </div>
+  <div class="product-hero-visual">&#x1F9C1;</div>
+</section>
+<div class="content-block">
+  <h2>What makes these special</h2>
+  <p>Every cupcake starts with a scratch batter, no box mixes, ever. The cakes are baked fresh the morning of your pickup, topped with a silky buttercream frosting piped to order, and decorated with sprinkles, toppers, or custom details to match your theme.</p>
+  <p>Cupcakes are ideal for birthday parties, office celebrations, baby showers, bridal events, and any time you want individual portions that look as good as they taste. Mix and match flavors within your order!</p>
+</div>
+<div class="pricing-section">
+  <div class="pricing-inner">
+    <h2>Pricing</h2>
+    <p class="subtitle">All pricing is per dozen. Minimum order is 6 cupcakes (half dozen).</p>
+    <div class="pricing-grid">
+      <div class="price-card featured"><div class="qty">Half Dozen</div><div class="amount">$22</div><div class="per">6 cupcakes · starting price</div></div>
+      <div class="price-card"><div class="qty">1 Dozen</div><div class="amount">$42</div><div class="per">12 cupcakes · most popular</div></div>
+      <div class="price-card"><div class="qty">2+ Dozens</div><div class="amount">$38/doz</div><div class="per">24+ cupcakes · bulk rate</div></div>
+    </div>
+    <div class="addon-note"><strong>Individual add-on:</strong> Need a few extra? Individual cupcakes can be added to any order at $4 each. Minimum half-dozen order required.</div>
+  </div>
+</div>
+<div class="flavors-section">
+  <div class="flavors-inner">
+    <h2>Cake &amp; Frosting Flavors</h2>
+    <p class="subtitle">Mix and match cake and frosting flavors. Custom flavor requests welcome!</p>
+    <p class="flavor-label">Cake</p>
+    <div class="flavor-tags">
+      <span class="flavor-tag">Vanilla</span>
+      <span class="flavor-tag">Chocolate</span>
+      <span class="flavor-tag">Strawberry</span>
+      <span class="flavor-tag">Red Velvet</span>
+      <span class="flavor-tag">Lemon</span>
+      <span class="flavor-tag">Funfetti</span>
+      <span class="flavor-tag">Coffee</span>
+    </div>
+    <p class="flavor-label">Frosting</p>
+    <div class="flavor-tags">
+      <span class="flavor-tag">Vanilla Buttercream</span>
+      <span class="flavor-tag">Chocolate Ganache</span>
+      <span class="flavor-tag">Strawberry Cream</span>
+      <span class="flavor-tag">Cream Cheese</span>
+      <span class="flavor-tag">Salted Caramel</span>
+      <span class="flavor-tag">Lemon Curd</span>
+      <span class="flavor-tag">Whipped Rose</span>
+    </div>
+  </div>
+</div>
+<div class="details-section">
+  <div class="details-inner">
+    <h2>Good to Know</h2>
+    <div class="details-grid">
+      <div class="detail-item"><div class="icon">&#x1F4C5;</div><h4>Lead Time</h4><p>Please order at least 5 to 7 days in advance. Same-week orders accepted based on availability.</p></div>
+      <div class="detail-item"><div class="icon">&#x1F3A8;</div><h4>Custom Toppers</h4><p>Paper toppers, edible prints, or fondant decorations available. Share your theme when ordering!</p></div>
+      <div class="detail-item"><div class="icon">&#x1F4E6;</div><h4>Packaging</h4><p>Cupcakes come in a windowed bakery box. Individual cupcake boxes available for gifts.</p></div>
+      <div class="detail-item"><div class="icon">&#x1F33E;</div><h4>Allergens</h4><p>Contains wheat, eggs, and dairy. Made in a home kitchen. Please share any allergies when ordering.</p></div>
+      <div class="detail-item"><div class="icon">&#x1F3E0;</div><h4>Pickup</h4><p>Local pickup only at this time. Delivery may be available, contact us to ask!</p></div>
+      <div class="detail-item"><div class="icon">&#x1F4B0;</div><h4>Deposit</h4><p>A 50% deposit is required to confirm your order. Balance due at pickup.</p></div>
+    </div>
+  </div>
+</div>
+<div class="cta-banner">
+  <h2>Ready to order your cupcakes?</h2>
+  <p>Fill out the order form and I'll get back to you within 24 hours with availability and a final quote.</p>
+  <a href="index.html#order" class="btn btn-light">Place an Order</a>
+</div>
+<footer><p>&#xA9; 2026 murrz studio &middot; Made with love &middot; <a href="index.html">Home</a> &middot; <a href="https://www.instagram.com/Murrz" target="_blank">Instagram</a></p></footer>
+</body>
+</html>
