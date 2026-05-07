@@ -55,12 +55,30 @@
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem; }
     .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--brown); letter-spacing: 0.04em; text-transform: uppercase; }
-    .form-group input, .form-group select, .form-group textarea { background: var(--cream); border: 1.5px solid #e8d8d0; border-radius: 10px; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--mocha); outline: none; transition: border-color 0.2s; width: 100%; }
+    .form-group input, .form-group select, .form-group textarea { background: var(--white); border: 1.5px solid #e8d8d0; border-radius: 10px; padding: 0.75rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--mocha); outline: none; transition: border-color 0.2s; width: 100%; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--rose); }
     .form-group textarea { resize: vertical; min-height: 100px; }
-    .form-group select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d4836e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+    .form-group select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d4836e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; background-color: var(--white); }
     .form-submit { width: 100%; padding: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; margin-top: 0.5rem; }
     .form-note { font-size: 0.8rem; color: #9a7a6a; text-align: center; margin-top: 1rem; }
+    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { display: flex; align-items: center; gap: 6px; padding: 6px 14px; border: 1.5px solid #e8d8d0; border-radius: 50px; background: var(--white); cursor: pointer; font-size: 0.85rem; color: var(--mocha); user-select: none; transition: border-color 0.15s, background 0.15s; font-family: 'DM Sans', sans-serif; }
+    .chip input[type="checkbox"] { display: none; }
+    .chip:has(input:checked) { border-color: var(--rose); background: #fdf0ec; color: var(--brown); font-weight: 500; }
+    .radio-row { display: flex; gap: 10px; }
+    .radio-card { flex: 1; border: 1.5px solid #e8d8d0; border-radius: 12px; background: var(--white); padding: 12px; cursor: pointer; text-align: center; transition: border-color 0.15s, background 0.15s; }
+    .radio-card input { display: none; }
+    .radio-card:has(input:checked) { border-color: var(--rose); background: #fdf0ec; }
+    .radio-card .rc-icon { font-size: 20px; display: block; margin-bottom: 3px; }
+    .radio-card .rc-label { font-size: 0.82rem; color: var(--mocha); }
+    .radio-card:has(input:checked) .rc-label { color: var(--brown); font-weight: 500; }
+    .budget-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .input-prefix { position: relative; }
+    .input-prefix .prefix-sym { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--rose); font-size: 0.95rem; pointer-events: none; }
+    .input-prefix input { padding-left: 26px; }
+    .form-section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose); margin: 1.8rem 0 1rem; display: flex; align-items: center; gap: 10px; }
+    .form-section-label::after { content: ''; flex: 1; height: 1px; background: #e8d8d0; }
+    .field-note { font-size: 0.78rem; color: #9a7a6a; margin-top: 4px; }
 
     #about { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
     .about-img { background: var(--blush); border-radius: 30px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
@@ -181,53 +199,120 @@
   <div class="order-wrap">
     <div id="order-content">
       <form class="order-form" id="order-form">
+
+        <div class="form-section-label">About you</div>
         <div class="form-row">
           <div class="form-group">
-            <label for="name">Your Name *</label>
-            <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+            <label for="first_name">First name *</label>
+            <input type="text" id="first_name" name="first_name" placeholder="Jane" required />
           </div>
+          <div class="form-group">
+            <label for="last_name">Last name</label>
+            <input type="text" id="last_name" name="last_name" placeholder="Smith" />
+          </div>
+        </div>
+        <div class="form-row">
           <div class="form-group">
             <label for="email">Email *</label>
             <input type="email" id="email" name="email" placeholder="jane@email.com" required />
           </div>
+          <div class="form-group">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(562) 555-0000" />
+          </div>
+        </div>
+
+        <div class="form-section-label">Your order</div>
+        <div class="form-group">
+          <label>What are you ordering?</label>
+          <div class="chip-group">
+            <label class="chip"><input type="checkbox" name="order_type" value="Custom cake" />Custom cake</label>
+            <label class="chip"><input type="checkbox" name="order_type" value="Cupcakes" />Cupcakes</label>
+            <label class="chip"><input type="checkbox" name="order_type" value="Cookies" />Cookies</label>
+            <label class="chip"><input type="checkbox" name="order_type" value="Macarons" />Macarons</label>
+            <label class="chip"><input type="checkbox" name="order_type" value="Bread / loaf" />Bread / loaf</label>
+            <label class="chip"><input type="checkbox" name="order_type" value="Cake pops" />Cake pops</label>
+            <label class="chip"><input type="checkbox" name="order_type" value="Other" />Other</label>
+          </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" />
-          </div>
-          <div class="form-group">
-            <label for="pickup">Event / Pickup Date *</label>
-            <input type="date" id="pickup" name="pickup_date" required />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="product">What would you like? *</label>
-            <select id="product" name="product" required>
-              <option value="" disabled selected>Choose a treat...</option>
-              <option value="macarons">Custom Macarons</option>
-              <option value="cookies">Decorated Cookies</option>
-              <option value="cupcakes">Custom Cupcakes</option>
-              <option value="cake">Celebration Cake</option>
-              <option value="mixed">Mixed / Multiple Items</option>
+            <label for="event_type">Event type</label>
+            <select id="event_type" name="event_type">
+              <option value="" disabled selected>Select one</option>
+              <option>Birthday</option>
+              <option>Baby shower</option>
+              <option>Bridal shower</option>
+              <option>Wedding</option>
+              <option>Anniversary</option>
+              <option>Graduation</option>
+              <option>Holiday / seasonal</option>
+              <option>Corporate / office</option>
+              <option>Just because</option>
+              <option>Other</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="quantity">Quantity / Size</label>
-            <input type="text" id="quantity" name="quantity" placeholder="e.g. 1 dozen, 6 inch cake" />
+            <label for="event_date">Event date *</label>
+            <input type="date" id="event_date" name="event_date" required />
+            <p class="field-note">Orders need at least 1–2 weeks notice.</p>
           </div>
         </div>
         <div class="form-group">
-          <label for="flavors">Flavor Preferences</label>
-          <input type="text" id="flavors" name="flavors" placeholder="e.g. vanilla, strawberry, matcha, chocolate..." />
+          <label for="quantity">Serving size / quantity</label>
+          <input type="text" id="quantity" name="quantity" placeholder="e.g. 20 people, 2 dozen cookies" />
+        </div>
+
+        <div class="form-section-label">Flavor & design</div>
+        <div class="form-group">
+          <label for="flavors">Flavor(s)</label>
+          <input type="text" id="flavors" name="flavors" placeholder="e.g. vanilla bean, strawberry filling, cream cheese frosting" />
         </div>
         <div class="form-group">
-          <label for="design">Design Ideas &amp; Notes *</label>
-          <textarea id="design" name="design" placeholder="Tell me about your vision! Colors, theme, occasion, any inspiration photos you have..." required></textarea>
+          <label for="design">Design / vibe *</label>
+          <textarea id="design" name="design" placeholder="Colors, theme, inspo, anything! You can email me reference photos too." required></textarea>
         </div>
-        <button type="submit" class="btn form-submit">Send My Order Request</button>
-        <p class="form-note">I'll reply within 24 hours with pricing and availability!</p>
+
+        <div class="form-section-label">Dietary needs</div>
+        <div class="form-group">
+          <label for="allergies">Any allergies I should know about?</label>
+          <textarea id="allergies" name="allergies" placeholder="e.g. severe peanut allergy, gluten-free, dairy-free, none..." style="min-height:70px;"></textarea>
+        </div>
+        <p class="field-note" style="margin-bottom:1.2rem;background:var(--blush);color:var(--brown);border-radius:10px;padding:0.75rem 1rem;font-size:0.85rem;line-height:1.6;">💌 Once I receive your request, I'll email you a custom quote. A security deposit is required to confirm your order and hold your date.</p>
+
+        <div class="form-section-label">Pickup or delivery</div>
+        <div class="form-group">
+          <label>How would you like to receive your order?</label>
+          <div class="radio-row">
+            <label class="radio-card">
+              <input type="radio" name="fulfillment" value="Pickup" />
+              <span class="rc-icon">🛍️</span>
+              <span class="rc-label">Pickup</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="fulfillment" value="Delivery" />
+              <span class="rc-icon">🚗</span>
+              <span class="rc-label">Delivery</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="fulfillment" value="Not sure yet" />
+              <span class="rc-icon">🤷</span>
+              <span class="rc-label">Not sure yet</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group" id="delivery-field" style="display:none;">
+          <label for="delivery_address">Delivery address / area</label>
+          <input type="text" id="delivery_address" name="delivery_address" placeholder="e.g. Downey, CA 90241" />
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Anything else?</label>
+          <textarea id="notes" name="notes" placeholder="Any other details, questions, or special requests!" style="min-height:70px;"></textarea>
+        </div>
+
+        <button type="submit" class="btn form-submit">Send My Order Request →</button>
+        <p class="form-note">I'll get back to you within 24–48 hours with pricing and availability!</p>
       </form>
     </div>
   </div>
@@ -280,11 +365,17 @@
 </footer>
 
 <script>
+  document.querySelectorAll('input[name="fulfillment"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('delivery-field').style.display = r.value === 'Delivery' ? 'flex' : 'none';
+    });
+  });
+
   document.getElementById('order-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = this;
     const submitBtn = form.querySelector('button[type="submit"]');
-    const firstName = document.getElementById('name').value.trim().split(' ')[0];
+    const firstName = document.getElementById('first_name').value.trim();
 
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
@@ -301,16 +392,17 @@
           <div style="background:var(--white);border-radius:24px;padding:2.5rem;text-align:center;">
             <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
             <h3 style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--brown);margin-bottom:0.6rem;">Thank you, ${firstName}!</h3>
-            <p style="color:#6b4a38;font-size:0.97rem;">Your order details have been received! I'll review everything and reach out within 24 hours. Can't wait to bake for you! 🌸</p>
+            <p style="color:#6b4a38;font-size:0.97rem;margin-bottom:1.5rem;">Your order request has been received! I'll review everything and reach out within 24–48 hours with pricing and availability. Can't wait to bake for you! 🌸</p>
+            <a href="https://calendly.com/maryparkstudio/pick-up-date" target="_blank" style="display:inline-block;background:var(--rose);color:var(--white);padding:0.85rem 2rem;border-radius:50px;font-weight:500;font-size:0.95rem;text-decoration:none;">Book a pickup time →</a>
           </div>
         `;
       } else {
-        submitBtn.textContent = 'Send My Order Details';
+        submitBtn.textContent = 'Send My Order Request →';
         submitBtn.disabled = false;
         alert('Something went wrong. Please try again or reach out on Instagram!');
       }
     } catch (err) {
-      submitBtn.textContent = 'Send My Order Details';
+      submitBtn.textContent = 'Send My Order Request →';
       submitBtn.disabled = false;
       alert('Something went wrong. Please try again or reach out on Instagram!');
     }
